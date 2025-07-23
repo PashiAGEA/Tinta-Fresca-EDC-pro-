@@ -1,0 +1,27 @@
+# Ignorar carpetas de módulos de Node
+node_modules/
+
+# Ignorar archivos de entorno (contienen claves secretas)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignorar logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.pnpm-store/
+
+# Ignorar builds de React
+build/
+dist/
+
+# Otros archivos comunes a ignorar
+.DS_Store
+.vscode/ # Si usas VS Code y no quieres compartir la configuración del editor
+*.log
+*.swp
+.idea/ # Si usas WebStorm/IntelliJ
