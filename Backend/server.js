@@ -33,6 +33,7 @@ const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
 // Importa los módulos de rutas y PASALES los clientes de Supabase
 const schoolsRoutes = require('./routes/schools')(supabase); // Pasa el cliente regular
 const adminRoutes = require('./routes/admin')(supabaseAdmin, supabase); // Pasa el cliente admin y el regular para auth.getUser
+const usersRoutes = require('./routes/users')(supabaseAdmin); // <--- NUEVA LÍNEA: Pasa el cliente admin a users.js
 
 // Middlewares globales
 app.use(cors());
@@ -41,6 +42,7 @@ app.use(express.json());
 // Monta los routers en las rutas base correspondientes
 app.use('/api/escuelas', schoolsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/users', usersRoutes); // <--- NUEVA LÍNEA: Monta las rutas de usuarios
 
 // Ruta de prueba general
 app.get('/', (req, res) => {
