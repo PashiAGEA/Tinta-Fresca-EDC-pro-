@@ -5,15 +5,15 @@ const router = express.Router();
 // Envuelve las rutas en una función que acepta el cliente de Supabase
 module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
 
-  // Ruta para obtener todas las escuelas
+  // Ruta para obtener todas las schools
   router.get('/', async (req, res) => {
-    console.log('GET /api/escuelas - Obteniendo todas las escuelas');
+    console.log('GET /api/schools - Obteniendo todas las schools');
     const { data, error } = await supabaseClient
-      .from("escuelas") // Asegúrate de que el nombre de la tabla coincida con Supabase (case-sensitive)
+      .from("schools") // Asegúrate de que el nombre de la tabla coincida con Supabase (case-sensitive)
       .select('*');
 
     if (error) {
-      console.error('Error al obtener escuelas:', error.message);
+      console.error('Error al obtener schools:', error.message);
       return res.status(500).json({ error: error.message });
     }
     res.json(data);
@@ -22,9 +22,9 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
   // Ruta para obtener una escuela por ID
   router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    console.log(`GET /api/escuelas/${id} - Obteniendo escuela por ID`);
+    console.log(`GET /api/schools/${id} - Obteniendo escuela por ID`);
     const { data, error } = await supabaseClient
-      .from("escuelas")
+      .from("schools")
       .select('*')
       .eq('id', id)
       .single(); // Espera un solo resultado
@@ -42,7 +42,7 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
   // Ruta para crear una nueva escuela
   router.post('/', async (req, res) => {
     const { name, address, phone, school_email, location, active } = req.body;
-    console.log('POST /api/escuelas - Creando nueva escuela:', req.body.name);
+    console.log('POST /api/schools - Creando nueva escuela:', req.body.name);
 
     // Validación básica de campos (puedes expandirla)
     if (!name || !address || !phone || !school_email) {
@@ -50,7 +50,7 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
     }
 
     const { data, error } = await supabaseClient
-      .from("escuelas")
+      .from("schools")
       .insert([{ name, address, phone, school_email, location, active: active || true }]); // 'active' por defecto a true si no se provee
 
     if (error) {
@@ -64,7 +64,7 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
   router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, address, phone, school_email, location, active } = req.body;
-    console.log(`PUT /api/escuelas/${id} - Actualizando escuela:`, req.body.name);
+    console.log(`PUT /api/schools/${id} - Actualizando escuela:`, req.body.name);
 
     // Validación básica de campos
     if (!name && !address && !phone && !school_email && !location && active === undefined) {
@@ -81,7 +81,7 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
     if (active !== undefined) updateData.active = active;
 
     const { data, error } = await supabaseClient
-      .from("escuelas")
+      .from("schools")
       .update(updateData)
       .eq('id', id);
 
@@ -101,9 +101,9 @@ module.exports = (supabaseClient) => { // <--- RECIBE supabaseClient
   // Ruta para eliminar una escuela por ID
   router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    console.log(`DELETE /api/escuelas/${id} - Eliminando escuela por ID`);
+    console.log(`DELETE /api/schools/${id} - Eliminando escuela por ID`);
     const { data, error } = await supabaseClient
-      .from("escuelas")
+      .from("schools")
       .delete()
       .eq('id', id);
 

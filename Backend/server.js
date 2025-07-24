@@ -40,9 +40,9 @@ app.use(cors());
 app.use(express.json());
 
 // Monta los routers en las rutas base correspondientes
-app.use('/api/escuelas', schoolsRoutes);
+app.use('/api/schools', schoolsRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/users', usersRoutes); // <--- NUEVA LÍNEA: Monta las rutas de usuarios
+app.use('/api/users', usersRoutes); // <--- NUEVA LÍNEA: Monta las rutas de users
 
 // Ruta de prueba general
 app.get('/', (req, res) => {

@@ -29,7 +29,7 @@ module.exports = (supabaseAdminClient, supabaseAuthClient) => { // <--- RECIBE L
     }
   }
 
-  // Ruta para listar todos los usuarios
+  // Ruta para listar todos los users
   router.get('/users', authenticateAdmin, async (req, res) => {
     try {
       // Usa supabaseAdminClient para las operaciones de admin

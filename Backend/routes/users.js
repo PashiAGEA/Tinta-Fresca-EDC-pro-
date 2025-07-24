@@ -5,7 +5,7 @@ const router = express.Router();
 // Envuelve las rutas en una función que acepta el cliente de Supabase (con service_role_key)
 module.exports = (supabaseAdminClient) => { // Importante: Este es el cliente con service_role_key
 
- // Ruta para obtener todos los usuarios (perfiles de la tabla "Usuarios")
+ // Ruta para obtener todos los users (perfiles de la tabla "users")
   // Esta ruta requiere privilegios de administrador para ser accedida.
   router.get('/', async (req, res) => {
     console.log('GET /api/users - Obteniendo todos los perfiles de usuario');
@@ -13,7 +13,7 @@ module.exports = (supabaseAdminClient) => { // Importante: Este es el cliente co
     // Aquí usamos supabaseAdminClient porque esta operación necesita leer todos los perfiles,
     // lo cual no debería ser accesible con la anon_key por seguridad.
     const { data, error } = await supabaseAdminClient
-      .from('Usuarios') // Asegúrate de que el nombre de la tabla coincida (con comillas si es necesario)
+      .from('users') // Asegúrate de que el nombre de la tabla coincida (con comillas si es necesario)
       .select('*');
 
     if (error) {
@@ -24,13 +24,13 @@ module.exports = (supabaseAdminClient) => { // Importante: Este es el cliente co
   });
 
   // Ruta para obtener los datos del perfil del usuario autenticado
-  // (Esto podría estar protegido si solo usuarios autenticados pueden ver su propio perfil)
+  // (Esto podría estar protegido si solo users autenticados pueden ver su propio perfil)
   router.get('/:id', async (req, res) => {
     const { id } = req.params;
     console.log(`GET /api/users/${id} - Obteniendo perfil de usuario`);
 
     const { data, error } = await supabaseAdminClient
-      .from('Usuarios') // Asegúrate de que el nombre de la tabla coincida (con comillas si es necesario)
+      .from('users') // Asegúrate de que el nombre de la tabla coincida (con comillas si es necesario)
       .select('*')
       .eq('id', id)
       .single();
@@ -45,7 +45,7 @@ module.exports = (supabaseAdminClient) => { // Importante: Este es el cliente co
     res.json(data);
   });
 
-  // Ruta para actualizar el nombre de un usuario en la tabla "Usuarios"
+  // Ruta para actualizar el nombre de un usuario en la tabla "users"
   // Esta ruta debería ser llamada por el frontend del usuario para actualizar SU PROPIO perfil.
   // Es crucial que aquí validemos que el token del usuario coincide con el 'id' que se intenta actualizar.
   router.put('/:id/name', async (req, res) => {
@@ -66,7 +66,7 @@ module.exports = (supabaseAdminClient) => { // Importante: Este es el cliente co
     }
 
     const { data, error } = await supabaseAdminClient
-      .from('Usuarios') // Asegúrate de que el nombre de la tabla coincida
+      .from('users') // Asegúrate de que el nombre de la tabla coincida
       .update({ name: name.trim() }) // Usamos .trim() para quitar espacios al inicio/final
       .eq('id', id);
 
